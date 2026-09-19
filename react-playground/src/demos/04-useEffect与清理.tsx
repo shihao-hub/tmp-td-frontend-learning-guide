@@ -25,8 +25,15 @@ function SearchLog({ keyword }: { keyword: string }) {
 
   useEffect(() => {
     console.log('[SearchLog] keyword 变了 → 重新"请求"', keyword)
-    setCount((c) => c + 1)
-    // 真实项目：这里发 fetch，或做防抖。依赖必须是 [keyword]
+    const id = setTimeout(() => {
+      setCount((c) => c + 1)
+      // 真实项目：这里发 fetch，或做防抖。依赖必须是 [keyword]
+      //
+    }, 500)
+    return () => {
+      console.log('[SearchLog] cleanup：取消上一次定时器', keyword)
+      clearTimeout(id)
+    }
   }, [keyword])
 
   return (

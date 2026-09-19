@@ -7,13 +7,14 @@ interface UserCardProps {
   vip?: boolean // 可选 prop 带默认值
   onRemove?: () => void // 回调 prop：子组件"向上通信"的唯一方式
   children?: React.ReactNode // 标签中间的内容
+  online?: boolean
 }
 
-function UserCard({ name, email, vip = false, onRemove, children }: UserCardProps) {
+function UserCard({ name, email, vip = false, online=false, onRemove, children }: UserCardProps) {
   return (
     <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: 12, minWidth: 200 }}>
       <div className="row" style={{ justifyContent: 'space-between' }}>
-        <strong>{name}</strong>
+        {online && '🟢'}<strong>{name}</strong>
         {vip && <span className="badge">VIP</span>}
         {onRemove && (
           <button onClick={onRemove} aria-label="删除">
@@ -35,7 +36,7 @@ export default function Demo02() {
         <UserCard name="shawn" email="shawn@example.com">
           <span className="muted">这行是 children 传进来的</span>
         </UserCard>
-        <UserCard name="admin" email="admin@example.com" vip onRemove={() => alert('回调：删除 admin')}>
+        <UserCard name="admin" email="admin@example.com" vip online onRemove={() => alert('回调：删除 admin')}>
           <span className="muted">vip=true 时显示徽章</span>
         </UserCard>
       </div>
